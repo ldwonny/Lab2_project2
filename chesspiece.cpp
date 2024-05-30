@@ -37,8 +37,7 @@ ChessPiece* create_piece(string color, string type, int x, int y, int flag)
 {
     // TODO : implement create_piece
     ChessPiece* temp = new ChessPiece(color, type, x, y, flag);
-
-    return temp; 
+    return temp;
 }
 
 // NOTE: YOU CAN ADD OTHER FUNCTIONS HERE
