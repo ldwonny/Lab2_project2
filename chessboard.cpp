@@ -7,11 +7,17 @@ void ChessBoard::initialize_board()
 {
     // TODO: implement initialize_board
 
+    tiles = new ChessPiece**[height];
+    for (int i = 0; i < height; i++)
+    {
+        tiles[i] = new ChessPiece * [width];
+    }
+
     for (int i = 0; i < height; i++)
     {
         for (int j = 0; j < width; j++)
         {
-            tiles[i][j] = create_piece("Empty", "Empty", i, j);
+            tiles[i][j] = create_piece("Black", "Black", i, j, 0);
         }
     }
 }
@@ -26,11 +32,11 @@ ostream& operator<<(ostream& os, const ChessBoard& board)
         {
             if (board.tiles[i][j]->get_flag() == 1)
             {
-                os << board.tiles[i][j];
+                os << *board.tiles[i][j];
             }
-            else cout << '.';
+            else os << '.';
         }
-        cout << endl;
+        os << endl;
     }
     return os;
 }
@@ -38,7 +44,6 @@ ostream& operator<<(ostream& os, const ChessBoard& board)
 ChessPiece* ChessBoard::operator[](string s)
 {
     // TODO: implement operator[]
-    // 이게 왜 필요하지?
     return tiles[0][0];
 }
 

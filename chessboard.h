@@ -40,7 +40,7 @@ public:
 
     // NOTE: YOU CAN ADD MORE MEMBER FUNCTIONS HERE
 
-    void Settile(string color, string type ,int height, int width, int flag); // 특정 위치 타일을 바꿈
+    void Settile(string color, string type, int height, int width, int flag);
 
 private:
     int width, height;

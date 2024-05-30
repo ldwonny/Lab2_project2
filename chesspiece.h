@@ -29,6 +29,7 @@ class ChessPiece
 public:
     ChessPiece(string, string, int, int, int = 0); // default flag 0 is empty tile.
     ChessPiece(const ChessPiece& other);
+
     friend ostream& operator<<(ostream& os, const ChessPiece& piece);
 
     string get_color() { return color; }
@@ -42,10 +43,10 @@ public:
     void set_y(int y) { this->y = y; }
     void set_flag(int flag) { this->flag = flag; }
 
-    //virtual void move(int x, int y) { this->x = x; this->y = y; }; // you need to define move function in each pieces such as king class.
+    virtual void move(int x, int y) { this->x = x; this->y = y; }; // you need to define move function in each pieces such as king class.
 
     // NOTE: YOU CAN MODIFY THE RETURN TYPE OF THE FUNCTION BELOW
-    //virtual vector<tuple<MoveType, Direction, int>> get_possible_moves() = 0; // you need to define this function in each pieces.
+    virtual vector<tuple<MoveType, Direction, int>> get_possible_moves() = 0; // you need to define this function in each pieces.
 
 protected:
     string color;
