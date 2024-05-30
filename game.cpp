@@ -19,11 +19,12 @@ void Game::read_file(string filename)
     cout << "problem_id: [" << problem_id << "]" << endl;
     cout << "problem_specification: [" << problem_specification << "]" << endl;
 
+
     // TODO: CREATE CHESSBOARD
     int width, height;
     ifs >> height >> width;
-    board = new ChessBoard(width, height); // empty board로 초기화
-
+    board = new ChessBoard(width, height); // empty board
+    ifs.ignore();
     char temp;
     for (int i = 0; i < height; i++)
     {
@@ -42,6 +43,7 @@ void Game::read_file(string filename)
                 }
             }
         }
+        ifs.ignore();
     }
 }
 
