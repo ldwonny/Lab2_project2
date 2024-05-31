@@ -7,7 +7,7 @@ void ChessBoard::initialize_board()
 {
     // TODO: implement initialize_board
 
-    tiles = new ChessPiece**[height];
+    tiles = new ChessPiece **[height];
     for (int i = 0; i < height; i++)
     {
         tiles[i] = new ChessPiece * [width];
@@ -30,9 +30,17 @@ ostream& operator<<(ostream& os, const ChessBoard& board)
     {
         for (int j = 0; j < board.width; j++)
         {
-            if (board.tiles[i][j]->get_flag() == 1)
+            if (board.tiles[i][j]->get_flag() == 1) // flag == 1 means that tile is chesspiece
             {
                 os << *board.tiles[i][j];
+            }
+            else if (board.tiles[i][j]->get_flag() == 2) // flag == 2 means that tile can be rechable
+            {
+                os << 'o';
+            }
+            else if (board.tiles[i][j]->get_flag() == 3) // flag == 3 means that tile is attacked
+            {
+                os << 'x';
             }
             else os << '.';
         }
