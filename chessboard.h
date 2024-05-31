@@ -41,6 +41,9 @@ public:
     // NOTE: YOU CAN ADD MORE MEMBER FUNCTIONS HERE
 
     void Settile(string color, string type, int height, int width, int flag);
+    int getwidth() { return width; }
+    int getheight() { return height; }
+    ChessPiece gettile(int x, int y) { return *tiles[x][y]; }
 
 private:
     int width, height;

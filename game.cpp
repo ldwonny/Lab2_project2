@@ -14,7 +14,7 @@ void Game::read_file(string filename)
 
     ifs >> problem_id;
     ifs.ignore();
-    getline(ifs, problem_specification);
+    getline(ifs, problem_specification); // problem_specification is string
 
     cout << "problem_id: [" << problem_id << "]" << endl;
     cout << "problem_specification: [" << problem_specification << "]" << endl;
@@ -91,6 +91,86 @@ void Game::solve_print_board()
 void Game::solve_print_possible_moves()
 {
     // TODO
+    // problem_specification is string such as Qd7
+    // Q is type of piece, d is location of x from left, 7 is location of y from bottom
+
+    char type = problem_specification[0];
+    string color;
+    ChessBoard newboard(board->getwidth(), board->getheight());
+
+    if (isupper(type)) { color = "White"; }
+    else { color = "Black"; }
+
+    int x = problem_specification[1] - 'a';
+    int y = board->getheight() - problem_specification[2];
+
+    switch (toupper(type))
+    {
+    case 'P':
+    {
+        newboard.Settile(color, "Pawn", x, y, 1);
+        Pawn p(color, x, y, 1);
+        if (p.get_color() == "Black")
+        {
+            if (p.get_y() != board->getheight() - 1)
+            {
+                if (board->gettile(x, y + 1).get_flag() != 1)
+                {
+                    if (p.get_y() == 1)
+                    {
+                        newboard.Settile("None", "Move", x, y + 1, 2);
+                        p.move(x, y + 1);
+                        // one more step
+                        if (p.get_y() != board->getheight() - 1)
+                        {
+                            if (board->gettile(x, p.get_y() + 1).get_flag() != 1)
+                            {
+                                newboard.Settile("None", "Move", x, p.get_y() + 1, 2);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        newboard.Settile("None", "Move", x, y + 1, 2);
+                    }
+                }
+                else if (board->gettile(x + 1, y + 1).get_color() == "White" && p.get_x() != board->getwidth() - 1)
+                {
+                    newboard.Settile("None", "Attacked", x + 1, y + 1, 3);
+                }
+                else if (board->gettile(x - 1, y + 1).get_color() == "White" && p.get_x() != 0)
+                {
+                    newboard.Settile("None", "Attacked", x - 1, y + 1, 3);
+                }
+            }
+        }
+        else
+        {
+            if (p.get_y() == board->getheight() - 2) // 2nd row from bottom
+            {
+                p.move(x, y);
+                p.move(x, y);
+            }
+            else
+            {
+                p.move(x, y);
+            }
+        }
+
+        ofs << newboard;
+        break;
+    }
+    case 'R':
+
+    case 'N':
+
+    case 'B':
+
+    case 'Q':
+
+    case 'K':
+        break;
+    }
 }
 
 int Game::solve_check()
