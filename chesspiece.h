@@ -65,6 +65,8 @@ class King : public ChessPiece
 {
     // upright, upleft, downright, downleft, rightup, rightdown, leftup, leftdown
     // TODO
+public:
+    King(string color, int x, int y, int flag) : ChessPiece(color, "King", x, y, flag) { /* King constructor */ }
     void move(int x, int y)
     {
         this->x += x;
@@ -75,6 +77,8 @@ class King : public ChessPiece
 class Queen : public ChessPiece
 {
     // TODO
+public:
+    Queen(string color, int x, int y, int flag) : ChessPiece(color, "Queen", x, y, flag) { /* Queen constructor */ }
     void move(int x, int y)
     {
         this->x += x;
@@ -85,6 +89,8 @@ class Queen : public ChessPiece
 class Rook : public ChessPiece
 {
     // TODO
+public:
+    Rook(string color, int x, int y, int flag) : ChessPiece(color, "Rook", x, y, flag) { /* Rook constructor */ }
     void move(int x, int y)
     {
         this->x += x;
@@ -95,6 +101,8 @@ class Rook : public ChessPiece
 class Bishop : public ChessPiece
 {
     // TODO
+public:
+    Bishop(string color, int x, int y, int flag) : ChessPiece(color, "Bishop", x, y, flag) { /* Bishop constructor */ }
     void move(int x, int y)
     {
         this->x += x;
@@ -105,6 +113,8 @@ class Bishop : public ChessPiece
 class Knight : public ChessPiece
 {
     // TODO
+public:
+    Knight(string color, int x, int y, int flag) : ChessPiece(color, "Knight", x, y, flag) { /* Knight constructor */ }
     void move(int x, int y)
     {
         this->x += x;
@@ -115,29 +125,34 @@ class Knight : public ChessPiece
 class Pawn : public ChessPiece
 {
     // TODO
+
+    // Black Pawn Down, DownDown, DownRight, DownLeft
+    // White Pawn Up, UpUp, UpRight, UpLeft
 public:
-    Pawn(string color, int x, int y, int flag) : ChessPiece(color, "Pawn", x, y, flag)
-    { /* Pawn constructor */ }
-    void move(int x, int y /* x, y is location of pawn*/)
+    Pawn(string color, int x, int y, int flag) : ChessPiece(color, "Pawn", x, y, flag) { /* Pawn constructor */ }
+    virtual void move(int x, int y)
     {
-        /*
-        if (color == "Black")
+        if (color == "Black")// movement of black
         {
-            this->x += direction_to_pair[DOWN].first;
-            this->y += direction_to_pair[DOWN].second;
+            if (x == this->x && y == this->y + 1)
+            {
+                this->y = y;
+            }
         }
         else
         {
-            this->x += direction_to_pair[UP].first;
-            this->y += direction_to_pair[UP].second;
+            if (x == this->x && y == this->y - 1)
+            {
+                this->y = y;
+            }
         }
-        */
-        this->x = x;
-        this->y = y;
     }
-
-    // Black pawn move down
-    // White pawn move up
+    virtual vector<tuple<MoveType, Direction, int>> get_possible_moves()
+    {
+        vector<tuple<MoveType, Direction, int>> v;
+        v.push_back(make_tuple(MOVE, UP, 1));
+        return v;
+    }
 };
 
 // NOTE: YOU CAN ADD OTHER FUNCTIONS HERE

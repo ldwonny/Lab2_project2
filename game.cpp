@@ -42,6 +42,10 @@ void Game::read_file(string filename)
                     board->Settile("Black", char_to_piece[toupper(temp)], i, j, 1);
                 }
             }
+            else
+            {
+                board->Settile("Empty", "Empty", i, j, 0);
+            }
         }
         ifs.ignore();
     }
@@ -97,80 +101,18 @@ void Game::solve_print_possible_moves()
     char type = problem_specification[0];
     string color;
     ChessBoard newboard(board->getwidth(), board->getheight());
-
     if (isupper(type)) { color = "White"; }
     else { color = "Black"; }
 
-    int x = problem_specification[1] - 'a';
-    int y = board->getheight() - problem_specification[2];
-
-    switch (toupper(type))
+    (*board)[problem_specification]; // tiles[x][y] chesspiece
+    
+    if (char_to_piece[toupper(type)] == "Pawn")
     {
-    case 'P':
-    {
-        newboard.Settile(color, "Pawn", x, y, 1);
-        Pawn p(color, x, y, 1);
-        if (p.get_color() == "Black")
-        {
-            if (p.get_y() != board->getheight() - 1)
-            {
-                if (board->gettile(x, y + 1).get_flag() != 1)
-                {
-                    if (p.get_y() == 1)
-                    {
-                        newboard.Settile("None", "Move", x, y + 1, 2);
-                        p.move(x, y + 1);
-                        // one more step
-                        if (p.get_y() != board->getheight() - 1)
-                        {
-                            if (board->gettile(x, p.get_y() + 1).get_flag() != 1)
-                            {
-                                newboard.Settile("None", "Move", x, p.get_y() + 1, 2);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        newboard.Settile("None", "Move", x, y + 1, 2);
-                    }
-                }
-                else if (board->gettile(x + 1, y + 1).get_color() == "White" && p.get_x() != board->getwidth() - 1)
-                {
-                    newboard.Settile("None", "Attacked", x + 1, y + 1, 3);
-                }
-                else if (board->gettile(x - 1, y + 1).get_color() == "White" && p.get_x() != 0)
-                {
-                    newboard.Settile("None", "Attacked", x - 1, y + 1, 3);
-                }
-            }
-        }
-        else
-        {
-            if (p.get_y() == board->getheight() - 2) // 2nd row from bottom
-            {
-                p.move(x, y);
-                p.move(x, y);
-            }
-            else
-            {
-                p.move(x, y);
-            }
-        }
 
-        ofs << newboard;
-        break;
     }
-    case 'R':
 
-    case 'N':
 
-    case 'B':
 
-    case 'Q':
-
-    case 'K':
-        break;
-    }
 }
 
 int Game::solve_check()

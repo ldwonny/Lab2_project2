@@ -43,7 +43,8 @@ public:
     void Settile(string color, string type, int height, int width, int flag);
     int getwidth() { return width; }
     int getheight() { return height; }
-    ChessPiece gettile(int x, int y) { return *tiles[x][y]; }
+
+    bool possible_move_check(int x, int y, int posx, int posy);
 
 private:
     int width, height;

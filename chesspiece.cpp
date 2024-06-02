@@ -36,8 +36,41 @@ ChessPiece::ChessPiece(const ChessPiece& other)
 ChessPiece* create_piece(string color, string type, int x, int y, int flag)
 {
     // TODO : implement create_piece
-    ChessPiece* temp = new ChessPiece(color, type, x, y, flag);
-    return temp;
+    if (type == "King")
+    {
+        King* temp = new King(color, x, y, flag);
+        return temp;
+    }
+    else if (type == "Queen")
+    {
+        Queen* temp = new Queen(color, x, y, flag);
+        return temp;
+    }
+    else if (type == "Rook")
+    {
+        Rook* temp = new Rook(color, x, y, flag);
+        return temp;
+    }
+    else if (type == "Bishop")
+    {
+        Bishop* temp = new Bishop(color, x, y, flag);
+        return temp;
+    }
+    else if (type == "Knight")
+    {
+        Knight* temp = new Knight(color, x, y, flag);
+        return temp;
+    }
+    else if (type == "Pawn")
+    {
+        Pawn* temp = new Pawn(color, x, y, flag);
+        return temp;
+    }
+    else
+    {
+        ChessPiece* temp = new ChessPiece(color, type, x, y, flag);
+        return temp;
+    }
 }
 
 // NOTE: YOU CAN ADD OTHER FUNCTIONS HERE
