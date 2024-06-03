@@ -103,16 +103,30 @@ void Game::solve_print_possible_moves()
     ChessBoard newboard(board->getwidth(), board->getheight());
     if (isupper(type)) { color = "White"; }
     else { color = "Black"; }
+    int x, y;
+    x = (*board)[problem_specification]->get_x(); // tiles[x][y] chesspiece
+    y = (*board)[problem_specification]->get_y();
 
-    (*board)[problem_specification]; // tiles[x][y] chesspiece
-    
-    if (char_to_piece[toupper(type)] == "Pawn")
+
+    for (int i = 0; i < board->getheight(); i++)
     {
-
+        for (int j = 0; j < board->getwidth(); j++)
+        {
+            if (board->possible_move_check(x, y, i, j) == 1) // can move
+            {
+                newboard.Settile("Reach", "Reach", i, j, 2);
+            }
+            else if (board->possible_move_check(x, y, i, j) == 2) // can attack
+            {
+                newboard.Settile("Attack", "Attack", i, j, 3);
+            }
+            else // cannot move
+            {
+                newboard.Settile("Empty", "Empty", i, j, 0);
+            }
+        }
     }
-
-
-
+    ofs << newboard;
 }
 
 int Game::solve_check()

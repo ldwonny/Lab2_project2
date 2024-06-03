@@ -67,11 +67,7 @@ class King : public ChessPiece
     // TODO
 public:
     King(string color, int x, int y, int flag) : ChessPiece(color, "King", x, y, flag) { /* King constructor */ }
-    void move(int x, int y)
-    {
-        this->x += x;
-        this->y += y;
-    }
+    virtual void move(int x, int y);
 };
 
 class Queen : public ChessPiece
@@ -130,23 +126,7 @@ class Pawn : public ChessPiece
     // White Pawn Up, UpUp, UpRight, UpLeft
 public:
     Pawn(string color, int x, int y, int flag) : ChessPiece(color, "Pawn", x, y, flag) { /* Pawn constructor */ }
-    virtual void move(int x, int y)
-    {
-        if (color == "Black")// movement of black
-        {
-            if (x == this->x && y == this->y + 1)
-            {
-                this->y = y;
-            }
-        }
-        else
-        {
-            if (x == this->x && y == this->y - 1)
-            {
-                this->y = y;
-            }
-        }
-    }
+    virtual void move(int x, int y);
     virtual vector<tuple<MoveType, Direction, int>> get_possible_moves()
     {
         vector<tuple<MoveType, Direction, int>> v;

@@ -74,3 +74,46 @@ ChessPiece* create_piece(string color, string type, int x, int y, int flag)
 }
 
 // NOTE: YOU CAN ADD OTHER FUNCTIONS HERE
+
+
+// King Class
+void King::move(int x, int y)
+{
+    if (x == this->x && (y == this->y + 1 || y == this->y - 1)) // Up, Down
+    {
+        this->y = y;
+        return;
+    }
+    else if (y == this->y && (x == this->x + 1 || x == this->x - 1)) // Right, Left
+    {
+        this->x = x;
+        return;
+    }
+    else if ((x == this->x + 1 || x == this->x - 1) && (y == this->y + 1 || y == this->y - 1)) // Diagonal
+    {
+        this->x = x;
+        this->y = y;
+        return;
+    }
+    return;
+}
+
+
+// Pawn Class
+void Pawn::move(int x, int y)
+{
+    if (color == "Black")// movement of black
+    {
+        if (x == this->x && y == this->y + 1)
+        {
+            this->y = y;
+        }
+    }
+    else
+    {
+        if (x == this->x && y == this->y - 1)
+        {
+            this->y = y;
+        }
+    }
+}

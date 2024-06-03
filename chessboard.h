@@ -44,7 +44,7 @@ public:
     int getwidth() { return width; }
     int getheight() { return height; }
 
-    bool possible_move_check(int x, int y, int posx, int posy);
+    int possible_move_check(int x, int y, int posx, int posy);
 
 private:
     int width, height;

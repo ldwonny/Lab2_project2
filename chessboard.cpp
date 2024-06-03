@@ -43,9 +43,8 @@ ostream& operator<<(ostream& os, const ChessBoard& board)
 ChessPiece* ChessBoard::operator[](string s)
 {
     // TODO: implement operator[]
-    int x = s[1] - 'a';
-    int y = height - s[2];
-
+    int x = toupper(s[1]) - 'A';
+    int y = height - s[2] + '0';
     return tiles[x][y];
 }
 
@@ -68,11 +67,12 @@ void ChessBoard::Settile(string color, string type, int height, int width, int f
     tiles[height][width] = create_piece(color, type, height, width, flag);
 }
 
-bool ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y are location of piece, posx, posy are target location
+int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y are location of piece, posx, posy are target location
 {
+    // return 1 move, return 2 attack, return 0 cannot move
     string type, color;
-    type = tiles[x][y]->get_type();
-    color = tiles[x][y]->get_color();
+    type = tiles[y][x]->get_type();
+    color = tiles[y][x]->get_color();
 
     if (type == "King")
     {
@@ -100,34 +100,60 @@ bool ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y a
         {
             if (y == 1)
             {
-                if ((posy == y + 1 && posx == x) && tiles[posx][posy]->get_flag() == 0) // target tile is empty
+                if ((posy == y + 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
                 {
                     return 1;
                 }
-                else if ((posy == y + 2 && posx == x) && (tiles[posx][posy]->get_flag() == 0 && tiles[posx][posy-1]->get_flag() == 0))
+                else if ((posy == y + 2 && posx == x) && (tiles[posy][posx]->get_flag() == 0 && tiles[posy-1][posx]->get_flag() == 0))
                 {
                     return 1;
                 }
             }
             else
             {
-                if ((posy == y + 1 && posx == x) && tiles[posx][posy]->get_flag() == 0) // target tile is empty
+                if ((posy == y + 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
                 {
                     return 1;
                 }
             }
             if ((posy == y + 1) && (posx == x - 1 || posx == x + 1))
             {
-                if (tiles[posx][posy]->get_color() == "White")
+                if (tiles[posy][posx]->get_color() == "White")
                 {
-                    return 1;
+                    return 2;
                 }
             }
             return 0;
         }
         else 
         {
-
+            if (y == height - 2)
+            {
+                if ((posy == y - 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
+                {
+                    return 1;
+                }
+                else if ((posy == y - 2 && posx == x) && (tiles[posy][posx]->get_flag() == 0 && tiles[posy + 1][posx]->get_flag() == 0))
+                {
+                    return 1;
+                }
+            }
+            else
+            {
+                if ((posy == y - 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
+                {
+                    return 1;
+                }
+            }
+            if ((posy == y - 1) && (posx == x - 1 || posx == x + 1))
+            {
+                if (tiles[posy][posx]->get_color() == "Black")
+                {
+                    return 2;
+                }
+            }
+            return 0;
         }
+        return 0;
     }
 }
