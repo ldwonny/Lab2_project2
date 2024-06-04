@@ -43,8 +43,8 @@ ostream& operator<<(ostream& os, const ChessBoard& board)
 ChessPiece* ChessBoard::operator[](string s)
 {
     // TODO: implement operator[]
-    int x = toupper(s[1]) - 'A';
-    int y = height - s[2] + '0';
+    int x = height - s[2] + '0';
+    int y = toupper(s[1]) - 'A';
     return tiles[x][y];
 }
 
@@ -71,88 +71,93 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
 {
     // return 1 move, return 2 attack, return 0 cannot move
     string type, color;
-    type = tiles[y][x]->get_type();
-    color = tiles[y][x]->get_color();
+    type = tiles[x][y]->get_type();
+    color = tiles[x][y]->get_color();
 
     if (type == "King")
     {
+        // you don't need to consider color, location
+        // just enemy check!
 
     }
     else if (type == "Queen")
     {
-
+        cout << 2 << endl;
+        return 0;
     }
     else if (type == "Rook")
     {
-
+        cout << 3 << endl;
+        return 0;
     }
     else if (type == "Bishop")
     {
-
+        // recursive call? or 2d array
+        cout << 4 << endl;
+        return 0;
     }
     else if (type == "Knight")
     {
-
+        cout << 5 << endl;
+        return 0;
     }
     else if (type == "Pawn") // 1. color check, 2. location check, 3. enemy check.
     {
         if (color == "Black")
         {
-            if (y == 1)
+            if (x == 1)
             {
-                if ((posy == y + 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
+                if ((posx == x + 1 && posy == y) && tiles[posx][posy]->get_flag() == 0) // target tile is empty
                 {
                     return 1;
                 }
-                else if ((posy == y + 2 && posx == x) && (tiles[posy][posx]->get_flag() == 0 && tiles[posy-1][posx]->get_flag() == 0))
+                else if ((posx == x + 2 && posy == y) && (tiles[posx][posy]->get_flag() == 0 && tiles[posx - 1][posy]->get_flag() == 0))
                 {
                     return 1;
                 }
             }
             else
             {
-                if ((posy == y + 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
+                if ((posx == x + 1 && posy == y) && tiles[posx][posy]->get_flag() == 0) // target tile is empty
                 {
                     return 1;
                 }
             }
-            if ((posy == y + 1) && (posx == x - 1 || posx == x + 1))
+            if ((posx == x + 1) && (posy == y - 1 || posy == y + 1))
             {
-                if (tiles[posy][posx]->get_color() == "White")
+                if (tiles[posx][posy]->get_color() == "White")
                 {
                     return 2;
                 }
             }
-            return 0;
         }
-        else 
+        else
         {
-            if (y == height - 2)
+            if (x == height - 2)
             {
-                if ((posy == y - 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
+                if ((posx == x - 1 && posy == y) && tiles[posx][posy]->get_flag() == 0) // target tile is empty
                 {
                     return 1;
                 }
-                else if ((posy == y - 2 && posx == x) && (tiles[posy][posx]->get_flag() == 0 && tiles[posy + 1][posx]->get_flag() == 0))
+                else if ((posx == x - 2 && posy == y) && (tiles[posx][posy]->get_flag() == 0 && tiles[posx + 1][posy]->get_flag() == 0))
                 {
                     return 1;
                 }
             }
             else
             {
-                if ((posy == y - 1 && posx == x) && tiles[posy][posx]->get_flag() == 0) // target tile is empty
+                if ((posx == x - 1 && posy == y) && tiles[posx][posy]->get_flag() == 0) // target tile is empty
                 {
                     return 1;
                 }
             }
-            if ((posy == y - 1) && (posx == x - 1 || posx == x + 1))
+            if ((posx == x - 1) && (posy == y - 1 || posy == x + 1))
             {
-                if (tiles[posy][posx]->get_color() == "Black")
+                if (tiles[posx][posy]->get_color() == "Black")
                 {
                     return 2;
                 }
             }
-            return 0;
         }
         return 0;
     }

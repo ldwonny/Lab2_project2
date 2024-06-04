@@ -26,7 +26,7 @@ using namespace std;
 
 static int MAX_BOARD_SIZE = 26;
 
-static map<string, char> piece_to_char = 
+static map<string, char> piece_to_char =
 {
     {"King", 'K'},
     {"Queen", 'Q'},
@@ -35,7 +35,7 @@ static map<string, char> piece_to_char =
     {"Knight", 'N'},
     {"Pawn", 'P'}
 };
-static map<char, string> char_to_piece = 
+static map<char, string> char_to_piece =
 {
     {'K', "King"},
     {'Q', "Queen"},
@@ -45,7 +45,7 @@ static map<char, string> char_to_piece =
     {'P', "Pawn"}
 };
 
-enum Direction 
+enum Direction
 {
     UP, DOWN, LEFT, RIGHT, UP_LEFT, UP_RIGHT, DOWN_LEFT, DOWN_RIGHT,
     UP_UP_LEFT, UP_UP_RIGHT, DOWN_DOWN_LEFT, DOWN_DOWN_RIGHT,
@@ -54,7 +54,7 @@ enum Direction
 
 enum MoveType { MOVE, ATTACK, CHECK, CHECKMATE }; // 4 move types
 
-static map<Direction, pair<int, int>> direction_to_pair = 
+static map<Direction, pair<int, int>> direction_to_pair =
 {
     {UP, {0, 1}},
     {DOWN, {0, -1}},

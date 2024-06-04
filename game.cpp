@@ -106,6 +106,7 @@ void Game::solve_print_possible_moves()
     int x, y;
     x = (*board)[problem_specification]->get_x(); // tiles[x][y] chesspiece
     y = (*board)[problem_specification]->get_y();
+    cout << x << y << endl;
 
 
     for (int i = 0; i < board->getheight(); i++)
