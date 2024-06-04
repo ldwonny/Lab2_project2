@@ -76,8 +76,35 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
 
     if (type == "King")
     {
-        // you don't need to consider color, location
-        // just enemy check!
+        if (tiles[posx][posy]->get_color() == color) // cannot move
+        {
+            return 0;
+        }
+        if ((posy == y) && (abs(posx - x) == 1)) // Up, Down
+        {
+            if (tiles[posx][posy]->get_flag() == 1)
+            {
+                return 2;
+            }
+            else return 1;
+        }
+        else if ((posx == x) && (abs(posy - y) == 1)) //Right, Left
+        {
+            if (tiles[posx][posy]->get_flag() == 1)
+            {
+                return 2;
+            }
+            else return 1;
+        }
+        else if ((abs(posx - x) == 1) && (abs(posy - y) == 1)) // Diagonal
+        {
+            if (tiles[posx][posy]->get_flag() == 1)
+            {
+                return 2;
+            }
+            else return 1;
+        }
+        return 0;
 
     }
     else if (type == "Queen")
@@ -87,18 +114,113 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
     }
     else if (type == "Rook")
     {
-        cout << 3 << endl;
+        int colarr[26] = { 0, };
+        for (int i = x - 1; i >= 0; i--)
+        {
+            colarr[i] = 1;
+            if (tiles[i][y]->get_flag() == 1)
+            {
+                if (tiles[i][y]->get_color() == color)
+                {
+                    colarr[i] = 0;
+                    break;
+                }
+                else
+                {
+                    colarr[i] = 2;
+                    break;
+                }
+            }
+        }
+        for (int i = x + 1; i < height; i++)
+        {
+            colarr[i] = 1;
+            if (tiles[i][y]->get_flag() == 1)
+            {
+                if (tiles[i][y]->get_color() == color)
+                {
+                    colarr[i] = 0;
+                    break;
+                }
+                else
+                {
+                    colarr[i] = 2;
+                    break;
+                }
+            }
+        }
+        if (posy == y)
+        {
+            return colarr[posx];
+        }
+        int rowarr[26] = { 0, };
+        for (int i = y - 1; i >= 0; i--)
+        {
+            rowarr[i] = 1;
+            if (tiles[x][i]->get_flag() == 1)
+            {
+                if (tiles[x][i]->get_color() == color)
+                {
+                    rowarr[i] = 0;
+                    break;
+                }
+                else
+                {
+                    rowarr[i] = 2;
+                    break;
+                }
+            }
+        }
+        for (int i = y + 1; i < width; i++)
+        {
+            rowarr[i] = 1;
+            if (tiles[x][i]->get_flag() == 1)
+            {
+                if (tiles[x][i]->get_color() == color)
+                {
+                    rowarr[i] = 0;
+                    break;
+                }
+                else
+                {
+                    rowarr[i] = 2;
+                    break;
+                }
+            }
+        }
+        if (posx == x)
+        {
+            return rowarr[posy];
+        }
         return 0;
     }
     else if (type == "Bishop")
     {
-        // recursive call? or 2d array
         cout << 4 << endl;
         return 0;
     }
     else if (type == "Knight")
     {
-        cout << 5 << endl;
+        if (tiles[posx][posy]->get_color() == color)
+        {
+            return 0;
+        }
+        if ((abs(x - posx) == 2) && (abs(y - posy) == 1))
+        {
+            if (tiles[posx][posy]->get_flag() == 1)
+            {
+                return 2;
+            }
+            else return 1;
+        }
+        else if ((abs(x - posx) == 1) && (abs(y - posy) == 2))
+        {
+            if (tiles[posx][posy]->get_flag() == 1)
+            {
+                return 2;
+            }
+            else return 1;
+        }
         return 0;
     }
     else if (type == "Pawn") // 1. color check, 2. location check, 3. enemy check.

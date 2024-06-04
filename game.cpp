@@ -106,13 +106,16 @@ void Game::solve_print_possible_moves()
     int x, y;
     x = (*board)[problem_specification]->get_x(); // tiles[x][y] chesspiece
     y = (*board)[problem_specification]->get_y();
-    cout << x << y << endl;
-
 
     for (int i = 0; i < board->getheight(); i++)
     {
         for (int j = 0; j < board->getwidth(); j++)
         {
+            if (i == x && j == y)
+            {
+                newboard.Settile(color, char_to_piece[toupper(type)], x, y, 1);
+                continue;
+            }
             if (board->possible_move_check(x, y, i, j) == 1) // can move
             {
                 newboard.Settile("Reach", "Reach", i, j, 2);

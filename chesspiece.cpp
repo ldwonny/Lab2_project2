@@ -76,7 +76,7 @@ ChessPiece* create_piece(string color, string type, int x, int y, int flag)
 // NOTE: YOU CAN ADD OTHER FUNCTIONS HERE
 
 
-// King Class (you need to fix this code, x <-> y)
+// King class (you need to fix this code, x <-> y)
 void King::move(int x, int y)
 {
     if (x == this->x && (y == this->y + 1 || y == this->y - 1)) // Right, Left
@@ -98,8 +98,75 @@ void King::move(int x, int y)
     return;
 }
 
+// Queen class
+void Queen::move(int x, int y)
+{
+    if ((y == this->y) && (x != this->x))
+    {
+        this->x = x;
+        return;
+    }
+    else if ((x == this->x) && (y != this->y))
+    {
+        this->y == y;
+        return;
+    }
+    else if (abs(x - this->x) == abs(y - this->y))
+    {
+        this->x = x;
+        this->y = y;
+        return;
+    }
+}
 
-// Pawn Class
+
+// Rook class
+void Rook::move(int x, int y)
+{
+    if ((y == this->y) && (x != this->x))
+    {
+        this->x = x;
+        return;
+    }
+    else if ((x == this->x) && (y != this->y))
+    {
+        this->y == y;
+        return;
+    }
+}
+
+
+// Bishop class
+void Bishop::move(int x, int y)
+{
+    if (abs(x - this->x) == abs(y - this->y))
+    {
+        this->x = x;
+        this->y = y;
+        return;
+    }
+}
+
+
+// Knight class
+void Knight::move(int x, int y)
+{
+    if ((abs(x - this->x) == 2) && (abs(y - this->y) == 1))
+    {
+        this->x = x;
+        this->y = y;
+        return;
+    }
+    else if ((abs(x - this->x) == 1) && (abs(y - this->y) == 2))
+    {
+        this->x = x;
+        this->y = y;
+        return;
+    }
+}
+
+
+// Pawn class
 void Pawn::move(int x, int y)
 {
     if (color == "Black")// movement of black
@@ -107,6 +174,7 @@ void Pawn::move(int x, int y)
         if (y == this->y && x == this->x + 1)
         {
             this->x = x;
+            return;
         }
     }
     else
@@ -114,6 +182,7 @@ void Pawn::move(int x, int y)
         if (y == this->y && x == this->x - 1)
         {
             this->x = x;
+            return;
         }
     }
 }

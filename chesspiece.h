@@ -63,7 +63,6 @@ ChessPiece* create_piece(string color, string type, int x, int y, int flag = 0);
 
 class King : public ChessPiece
 {
-    // upright, upleft, downright, downleft, rightup, rightdown, leftup, leftdown
     // TODO
 public:
     King(string color, int x, int y, int flag) : ChessPiece(color, "King", x, y, flag) { /* King constructor */ }
@@ -75,11 +74,7 @@ class Queen : public ChessPiece
     // TODO
 public:
     Queen(string color, int x, int y, int flag) : ChessPiece(color, "Queen", x, y, flag) { /* Queen constructor */ }
-    void move(int x, int y)
-    {
-        this->x += x;
-        this->y += y;
-    }
+    virtual void move(int x, int y);
 };
 
 class Rook : public ChessPiece
@@ -87,11 +82,7 @@ class Rook : public ChessPiece
     // TODO
 public:
     Rook(string color, int x, int y, int flag) : ChessPiece(color, "Rook", x, y, flag) { /* Rook constructor */ }
-    void move(int x, int y)
-    {
-        this->x += x;
-        this->y += y;
-    }
+    virtual void move(int x, int y);
 };
 
 class Bishop : public ChessPiece
@@ -99,11 +90,7 @@ class Bishop : public ChessPiece
     // TODO
 public:
     Bishop(string color, int x, int y, int flag) : ChessPiece(color, "Bishop", x, y, flag) { /* Bishop constructor */ }
-    void move(int x, int y)
-    {
-        this->x += x;
-        this->y += y;
-    }
+    virtual void move(int x, int y);
 };
 
 class Knight : public ChessPiece
@@ -111,11 +98,7 @@ class Knight : public ChessPiece
     // TODO
 public:
     Knight(string color, int x, int y, int flag) : ChessPiece(color, "Knight", x, y, flag) { /* Knight constructor */ }
-    void move(int x, int y)
-    {
-        this->x += x;
-        this->y += y;
-    }
+    virtual void move(int x, int y);
 };
 
 class Pawn : public ChessPiece
