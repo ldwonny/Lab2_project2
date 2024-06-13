@@ -104,9 +104,6 @@ public:
 class Pawn : public ChessPiece
 {
     // TODO
-
-    // Black Pawn Down, DownDown, DownRight, DownLeft
-    // White Pawn Up, UpUp, UpRight, UpLeft
 public:
     Pawn(string color, int x, int y, int flag) : ChessPiece(color, "Pawn", x, y, flag) { /* Pawn constructor */ }
     virtual void move(int x, int y);

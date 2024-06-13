@@ -58,6 +58,20 @@ ChessBoard& ChessBoard::operator=(const ChessBoard& other)
 ChessBoard::ChessBoard(const ChessBoard& other)
 {
     // TODO: implement copy constructor
+    // deep copy
+    width = other.width;
+    height = other.height;
+    initialize_board();
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            string tempcolor = other.tiles[i][j]->get_color();
+            string temptype = other.tiles[i][j]->get_type();
+            int tempflag = other.tiles[i][j]->get_flag();
+            tiles[i][j] = create_piece(tempcolor, temptype, i, j, tempflag);
+        }
+    }
 }
 
 // NOTE: YOU CAN ADD MORE FUNCTIONS HERE
@@ -66,6 +80,12 @@ void ChessBoard::Settile(string color, string type, int height, int width, int f
 {
     tiles[height][width] = create_piece(color, type, height, width, flag);
 }
+
+ChessPiece* ChessBoard::gettile(int x, int y)
+{
+    return tiles[x][y];
+}
+
 
 int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y are location of piece, posx, posy are target location
 {
@@ -84,7 +104,8 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
         {
             if (tiles[posx][posy]->get_flag() == 1)
             {
-                return 2;
+                if (tiles[posx][posy]->get_type() == "King") return 3;
+                else return 2;
             }
             else return 1;
         }
@@ -92,7 +113,8 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
         {
             if (tiles[posx][posy]->get_flag() == 1)
             {
-                return 2;
+                if (tiles[posx][posy]->get_type() == "King") return 3;
+                else return 2;
             }
             else return 1;
         }
@@ -100,7 +122,8 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
         {
             if (tiles[posx][posy]->get_flag() == 1)
             {
-                return 2;
+                if (tiles[posx][posy]->get_type() == "King") return 3;
+                else return 2;
             }
             else return 1;
         }
@@ -109,95 +132,427 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
     }
     else if (type == "Queen")
     {
-        cout << 2 << endl;
-        return 0;
+        int arr[26][26] = { 0, };
+        int i = x - 1;
+        int j = y - 1;
+        while (i >= 0 && j >= 0)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i--; j--;
+        }
+        i = x + 1; j = y + 1;
+        while (i < height && j < width)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i++; j++;
+        }
+        i = x - 1; j = y + 1;
+        while (i >= 0 && j < width)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i--; j++;
+        }
+        i = x + 1; j = y - 1;
+        while (i < height && j >= 0)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i++; j--;
+        }
+        i = x - 1; j = y;
+        while (i >= 0)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i--;
+        }
+        i = x + 1; j = y;
+        while (i < height)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i++;
+        }
+        i = x; j = y - 1;
+        while (j >= 0)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            j--;
+        }
+        i = x; j = y + 1;
+        while (j < width)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            j++;
+        }
+
+        return arr[posx][posy];
     }
     else if (type == "Rook")
     {
-        int colarr[26] = { 0, };
-        for (int i = x - 1; i >= 0; i--)
+        int arr[26][26] = { 0, };
+        int i, j;
+        i = x - 1; j = y;
+        while (i >= 0)
         {
-            colarr[i] = 1;
-            if (tiles[i][y]->get_flag() == 1)
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
             {
-                if (tiles[i][y]->get_color() == color)
+                if (tiles[i][j]->get_color() == color)
                 {
-                    colarr[i] = 0;
+                    arr[i][j] = 0;
                     break;
                 }
                 else
                 {
-                    colarr[i] = 2;
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
                     break;
                 }
             }
+            i--;
         }
-        for (int i = x + 1; i < height; i++)
+        i = x + 1; j = y;
+        while (i < height)
         {
-            colarr[i] = 1;
-            if (tiles[i][y]->get_flag() == 1)
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
             {
-                if (tiles[i][y]->get_color() == color)
+                if (tiles[i][j]->get_color() == color)
                 {
-                    colarr[i] = 0;
+                    arr[i][j] = 0;
                     break;
                 }
                 else
                 {
-                    colarr[i] = 2;
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
                     break;
                 }
             }
+            i++;
         }
-        if (posy == y)
+        i = x; j = y - 1;
+        while (j >= 0)
         {
-            return colarr[posx];
-        }
-        int rowarr[26] = { 0, };
-        for (int i = y - 1; i >= 0; i--)
-        {
-            rowarr[i] = 1;
-            if (tiles[x][i]->get_flag() == 1)
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
             {
-                if (tiles[x][i]->get_color() == color)
+                if (tiles[i][j]->get_color() == color)
                 {
-                    rowarr[i] = 0;
+                    arr[i][j] = 0;
                     break;
                 }
                 else
                 {
-                    rowarr[i] = 2;
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
                     break;
                 }
             }
+            j--;
         }
-        for (int i = y + 1; i < width; i++)
+        i = x; j = y + 1;
+        while (j < width)
         {
-            rowarr[i] = 1;
-            if (tiles[x][i]->get_flag() == 1)
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
             {
-                if (tiles[x][i]->get_color() == color)
+                if (tiles[i][j]->get_color() == color)
                 {
-                    rowarr[i] = 0;
+                    arr[i][j] = 0;
                     break;
                 }
                 else
                 {
-                    rowarr[i] = 2;
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
                     break;
                 }
             }
+            j++;
         }
-        if (posx == x)
-        {
-            return rowarr[posy];
-        }
-        return 0;
+        return arr[posx][posy];
     }
     else if (type == "Bishop")
     {
-        cout << 4 << endl;
-        return 0;
+        int arr[26][26] = {0,};
+        int i = x - 1;
+        int j = y - 1;
+        while (i>=0 && j>=0)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i--; j--;
+        }
+        i = x + 1; j = y + 1;
+        while (i < height && j < width)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    if (tiles[i][j]->get_type() == "King")
+                    {
+                        arr[i][j] = 3;
+                    }
+                    else
+                    {
+                        arr[i][j] = 2;
+                    }
+                    break;
+                }
+            }
+            i++; j++;
+        }
+
+        i = x - 1; j = y + 1;
+        while (i >= 0 && j < width)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    arr[i][j] = 2;
+                    break;
+                }
+            }
+            i--; j++;
+        }
+
+        i = x + 1; j = y - 1;
+        while (i <height && j >= 0)
+        {
+            arr[i][j] = 1;
+            if (tiles[i][j]->get_flag() == 1)
+            {
+                if (tiles[i][j]->get_color() == color)
+                {
+                    arr[i][j] = 0;
+                    break;
+                }
+                else
+                {
+                    arr[i][j] = 2;
+                    break;
+                }
+            }
+            i++; j--;
+        }
+        
+        return arr[posx][posy];
     }
     else if (type == "Knight")
     {
@@ -209,7 +564,8 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
         {
             if (tiles[posx][posy]->get_flag() == 1)
             {
-                return 2;
+                if (tiles[posx][posy]->get_type() == "King") return 3;
+                else return 2;
             }
             else return 1;
         }
@@ -217,7 +573,8 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
         {
             if (tiles[posx][posy]->get_flag() == 1)
             {
-                return 2;
+                if (tiles[posx][posy]->get_type() == "King") return 3;
+                else return 2;
             }
             else return 1;
         }
@@ -249,7 +606,8 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
             {
                 if (tiles[posx][posy]->get_color() == "White")
                 {
-                    return 2;
+                    if (tiles[posx][posy]->get_type() == "King") return 3;
+                    else return 2;
                 }
             }
         }
@@ -277,10 +635,176 @@ int ChessBoard::possible_move_check(int x, int y, int posx, int posy) // x, y ar
             {
                 if (tiles[posx][posy]->get_color() == "Black")
                 {
-                    return 2;
+                    if (tiles[posx][posy]->get_type() == "King") return 3;
+                    else return 2;
                 }
             }
         }
         return 0;
     }
+}
+
+int ChessBoard::is_check(string str)
+{
+    string color, s;
+    if (str == "b")
+    {
+        color = "White";
+        s = "Black";
+    }
+    else
+    {
+        color = "Black";
+        s = "White";
+    }
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if (tiles[i][j]->get_color() == color && tiles[i][j]->get_flag() == 1)
+            {
+                for (int x = 0; x < height; x++)
+                {
+                    for (int y = 0; y < width; y++)
+                    {
+                        if (possible_move_check(i, j, x, y) == 3)
+                        {
+                            return 1; // Check
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+int ChessBoard::is_checkmate(string str)
+{
+    string color;
+    if (str == "b")
+    {
+        color = "Black";
+    }
+    else
+    {
+        color = "White";
+    }
+
+    if (is_check(str) == 1) // is check
+    {
+        for (int i = 0; i < height; i++)
+        {
+            for (int j = 0; j < width; j++)
+            {
+                if (tiles[i][j]->get_color() == color && tiles[i][j]->get_flag() == 1)
+                {
+                    // move
+                    // is check
+                    // is not check -> legal move present -> is not checkmate
+                    // there is no legal move -> checkmate
+                    
+                    for (int x = 0; x < height; x++)
+                    {
+                        for (int y = 0; y < width; y++)
+                        {
+                            if (possible_move_check(i, j, x, y) == 1) // move
+                            {
+                                ChessBoard temp(*this);
+                                ChessPiece *temppiece = create_piece(" ", " ", 0, 0, 0);
+                                temp.tiles[i][j]->move(x, y); // value change
+                                temp.tiles[x][y]->move(i, j); // value change
+                                temppiece = temp.tiles[x][y];
+                                temp.tiles[x][y] = temp.tiles[i][j];
+                                temp.tiles[i][j] = temppiece;
+                                if (temp.is_check(str) == 0) return 0;
+                            }
+                            else if (possible_move_check(i, j, x, y) == 2) // attack
+                            {
+                                ChessBoard temp(*this);
+                                ChessPiece* temppiece = create_piece(" ", " ", 0, 0, 0);
+                                temp.tiles[i][j]->move(x, y); // value change
+                                temp.tiles[x][y]->move(i, j); // value change
+                                temp.tiles[x][y]->set_flag(0); // attacked
+                                temppiece = temp.tiles[x][y];
+                                temp.tiles[x][y] = temp.tiles[i][j];
+                                temp.tiles[i][j] = temppiece;
+                                if (temp.is_check(str) == 0) return 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return 1;
+    }
+    else // is not check -> is not checkmate
+    {
+        return 0;
+    }
+}
+
+int ChessBoard::is_checkmate_onemove(string str)
+{
+    string color, opcolor;
+    if (str == "b")
+    {
+        color = "Black";
+        opcolor = "White";
+    }
+    else
+    {
+        color = "White";
+        opcolor = "Black";
+    }
+
+
+    // possible move check
+    // move or attack
+    // is check?
+    // is checkmate?
+
+
+
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            if (tiles[i][j]->get_color() == opcolor && tiles[i][j]->get_flag() == 1)
+            {
+
+                for (int x = 0; x < height; x++)
+                {
+                    for (int y = 0; y < width; y++)
+                    {
+                        if (possible_move_check(i, j, x, y) == 1) // move
+                        {
+                            ChessBoard temp(*this);
+                            ChessPiece* temppiece = create_piece(" ", " ", 0, 0, 0);
+                            temp.tiles[i][j]->move(x, y); // value change
+                            temp.tiles[x][y]->move(i, j); // value change
+                            temppiece = temp.tiles[x][y];
+                            temp.tiles[x][y] = temp.tiles[i][j];
+                            temp.tiles[i][j] = temppiece;
+                            if (temp.is_checkmate(str) == 1) return 1;
+                        }
+                        else if (possible_move_check(i, j, x, y) == 2) // attack
+                        {
+                            ChessBoard temp(*this);
+                            ChessPiece* temppiece = create_piece(" ", " ", 0, 0, 0);
+                            temp.tiles[i][j]->move(x, y); // value change
+                            temp.tiles[x][y]->move(i, j); // value change
+                            temp.tiles[x][y]->set_flag(0); // attacked
+                            temppiece = temp.tiles[x][y];
+                            temp.tiles[x][y] = temp.tiles[i][j];
+                            temp.tiles[i][j] = temppiece;
+                            if (temp.is_checkmate(str) == 1) return 1;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return 0;
 }

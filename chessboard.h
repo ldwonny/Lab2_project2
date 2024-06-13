@@ -43,8 +43,12 @@ public:
     void Settile(string color, string type, int height, int width, int flag);
     int getwidth() { return width; }
     int getheight() { return height; }
+    ChessPiece* gettile(int x, int y);
 
     int possible_move_check(int x, int y, int posx, int posy);
+    int is_check(string str);
+    int is_checkmate(string str);
+    int is_checkmate_onemove(string str);
 
 private:
     int width, height;

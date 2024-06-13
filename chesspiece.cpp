@@ -76,7 +76,7 @@ ChessPiece* create_piece(string color, string type, int x, int y, int flag)
 // NOTE: YOU CAN ADD OTHER FUNCTIONS HERE
 
 
-// King class (you need to fix this code, x <-> y)
+// King class
 void King::move(int x, int y)
 {
     if (x == this->x && (y == this->y + 1 || y == this->y - 1)) // Right, Left
@@ -108,7 +108,7 @@ void Queen::move(int x, int y)
     }
     else if ((x == this->x) && (y != this->y))
     {
-        this->y == y;
+        this->y = y;
         return;
     }
     else if (abs(x - this->x) == abs(y - this->y))
@@ -130,7 +130,7 @@ void Rook::move(int x, int y)
     }
     else if ((x == this->x) && (y != this->y))
     {
-        this->y == y;
+        this->y = y;
         return;
     }
 }

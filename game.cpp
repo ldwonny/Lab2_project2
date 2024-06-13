@@ -13,8 +13,15 @@ void Game::read_file(string filename)
     }
 
     ifs >> problem_id;
-    ifs.ignore();
-    getline(ifs, problem_specification); // problem_specification is string
+
+    if (problem_id == 0) 
+    {
+        problem_specification = "";
+    }
+    else 
+    {
+        ifs >> problem_specification;
+    }
 
     cout << "problem_id: [" << problem_id << "]" << endl;
     cout << "problem_specification: [" << problem_specification << "]" << endl;
@@ -120,7 +127,7 @@ void Game::solve_print_possible_moves()
             {
                 newboard.Settile("Reach", "Reach", i, j, 2);
             }
-            else if (board->possible_move_check(x, y, i, j) == 2) // can attack
+            else if (board->possible_move_check(x, y, i, j) == 2 || board->possible_move_check(x, y, i, j) == 3) // can attack
             {
                 newboard.Settile("Attack", "Attack", i, j, 3);
             }
@@ -138,7 +145,28 @@ int Game::solve_check()
     // TODO
     // EXAMPLE: "Black king is in check"
     //          "White king is not in check"
-    return 0;
+    string color, s;
+    if (problem_specification == "b")
+    {
+        color = "White";
+        s = "Black";
+    }
+    else
+    {
+        color = "Black";
+        s = "White";
+    }
+  
+    if (board->is_check(problem_specification) == 1)
+    {
+        ofs << s << " king is in check" << endl;
+        return 0;
+    }
+    else
+    {
+        ofs << s << " king is not in check" << endl;
+        return 0;
+    }
 }
 
 int Game::solve_checkmate()
@@ -146,6 +174,30 @@ int Game::solve_checkmate()
     // TODO 
     // EXAMPLE: "Black king is checkmated"
     //          "White king is not checkmated"
+
+    string color, s;
+    if (problem_specification == "b")
+    {
+        color = "White";
+        s = "Black";
+    }
+    else
+    {
+        color = "Black";
+        s = "White";
+    }
+
+    if (board->is_checkmate(problem_specification) == 1)
+    {
+        ofs << s << " king is checkmated" << endl;
+        return 0;
+    }
+    else
+    {
+        ofs << s << " king is not checkmated" << endl;
+        return 0;
+    }
+
     return 0;
 }
 
@@ -154,5 +206,33 @@ int Game::solve_checkmate_in_one_move()
     // TODO
     // EXAMPLE: "Black king is checkmated in one move"
     //          "White king is not checkmated in one move"
+
+    
+    // possible move check
+    // move or attack
+    // is checkmate
+    string color, s;
+    if (problem_specification == "b")
+    {
+        color = "White";
+        s = "Black";
+    }
+    else
+    {
+        color = "Black";
+        s = "White";
+    }
+
+    if (board->is_checkmate_onemove(problem_specification) == 1)
+    {
+        ofs << s << " king is checkmated in one move" << endl;
+        return 0;
+    }
+    else
+    {
+        ofs << s << " king is not checkmated in one move" << endl;
+        return 0;
+    }
+
     return 0;
 }

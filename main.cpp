@@ -41,11 +41,9 @@ int main(int argc, char* argv[])
 
     Game game;
 
-    //game.read_file(input_file);
-    //game.open_output_file(output_file);
-    game.read_file("input1.txt");
-    game.open_output_file("output1.txt");
-
+    game.read_file(input_file);
+    game.open_output_file(output_file);
+    
     game.solve();
 
 
